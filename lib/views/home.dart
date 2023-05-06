@@ -38,13 +38,14 @@ class Home extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
-      
+          physics: const BouncingScrollPhysics(),
           itemCount: 100,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(12)),
               child: ListTile(
+                tileColor: bgColor,
                 title: Text(
                   "Music name",
                   style: ourStyle(
