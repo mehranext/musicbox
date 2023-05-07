@@ -14,6 +14,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgDarkColor,
       appBar: AppBar(
+        backgroundColor: bgDarkColor,
         actions: [
           IconButton(
             onPressed: () {},
@@ -42,9 +43,10 @@ class Home extends StatelessWidget {
           itemCount: 100,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(12)),
+              margin: const EdgeInsets.only(bottom: 4),
               child: ListTile(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 tileColor: bgColor,
                 title: Text(
                   "Music name",
