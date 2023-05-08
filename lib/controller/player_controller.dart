@@ -29,6 +29,11 @@ class PlayerController extends GetxController {
     });
   }
 
+  changeDurationToSeconds(seconds) {
+    var duration = Duration(seconds: seconds);
+    audioPlayer.seek(duration);
+  }
+
 //
   playsong(String? uri, index) {
     playIndex.value = index;
