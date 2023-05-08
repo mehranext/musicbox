@@ -80,13 +80,23 @@ class Home extends StatelessWidget {
                             size: 12,
                           ),
                         ),
-                        leading: QueryArtworkWidget(id: snapshot.data![index].id, type: ArtworkType.AUDIO,
-                        nullArtworkWidget: const Icon(Icons.music_note,
-                        color: whiteColor,
-                        size: 32,),
+                        leading: QueryArtworkWidget(
+                          id: snapshot.data![index].id,
+                          type: ArtworkType.AUDIO,
+                          nullArtworkWidget: const Icon(
+                            Icons.music_note,
+                            color: whiteColor,
+                            size: 32,
+                          ),
                         ),
-                        trailing: const Icon(Icons.play_arrow,color: whiteColor,size: 26,),
-                        onTap: (){},
+                        trailing: const Icon(
+                          Icons.play_arrow,
+                          color: whiteColor,
+                          size: 26,
+                        ),
+                        onTap: () {
+                          controller.playsong(snapshot.data![index].uri);
+                        },
                       ),
                     );
                   },
