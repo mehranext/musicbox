@@ -79,7 +79,8 @@ class Player extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    Obx(() => Row(
+                    Obx(
+                      () => Row(
                         children: [
                           Text(
                             controller.position.value,
@@ -91,7 +92,11 @@ class Player extends StatelessWidget {
                                 inactiveColor: bgColor,
                                 activeColor: sliderColor,
                                 value: 0.0,
-                                onChanged: (newvalue) {}),
+                                onChanged: (newvalue) {
+                                  controller.changeDurationToSeconds(
+                                      newvalue.toInt());
+                                  newvalue = newvalue;
+                                }),
                           ),
                           Text(
                             controller.duration.value,
@@ -116,7 +121,7 @@ class Player extends StatelessWidget {
                         ),
                         //!first
                         Obx(
-                        ()=>  CircleAvatar(
+                          () => CircleAvatar(
                             radius: 30,
                             backgroundColor: bgDarkColor,
                             child: Transform.scale(
