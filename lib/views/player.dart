@@ -91,7 +91,9 @@ class Player extends StatelessWidget {
                                 thumbColor: sliderColor,
                                 inactiveColor: bgColor,
                                 activeColor: sliderColor,
-                                value: 0.0,
+                                min: Duration(seconds: 0).inSeconds.toDouble(),
+                                max: controller.max.value,
+                                value: controller.value.value,
                                 onChanged: (newvalue) {
                                   controller.changeDurationToSeconds(
                                       newvalue.toInt());
