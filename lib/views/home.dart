@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:musicbox/consts/colors.dart';
 import 'package:musicbox/consts/text_style.dart';
 import 'package:musicbox/controller/player_controller.dart';
+import 'package:musicbox/views/player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Home extends StatelessWidget {
@@ -64,39 +65,46 @@ class Home extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 4),
                       child: Obx(
                         () => ListTile(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        tileColor: bgColor,
-                        title: Text(
-                          snapshot.data![index].displayNameWOExt,
-                          style: ourStyle(
-                            family: Wreckout,
-                            size: 15,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          tileColor: bgColor,
+                          title: Text(
+                            snapshot.data![index].displayNameWOExt,
+                            style: ourStyle(
+                              family: Wreckout,
+                              size: 15,
+                            ),
                           ),
-                        ),
-                        subtitle: Text(
-                          "${snapshot.data![index].artist}",
-                          style: ourStyle(
-                            family: Wreckout,
-                            size: 12,
+                          subtitle: Text(
+                            "${snapshot.data![index].artist}",
+                            style: ourStyle(
+                              family: Wreckout,
+                              size: 12,
+                            ),
                           ),
-                        ),
-                        leading: QueryArtworkWidget(
-                          id: snapshot.data![index].id,
-                          type: ArtworkType.AUDIO,
-                          nullArtworkWidget: const Icon(
-                            Icons.music_note,
-                            color: whiteColor,
-                            size: 32,
+                          leading: QueryArtworkWidget(
+                            id: snapshot.data![index].id,
+                            type: ArtworkType.AUDIO,
+                            nullArtworkWidget: const Icon(
+                              Icons.music_note,
+                              color: whiteColor,
+                              size: 32,
+                            ),
                           ),
+                          trailing: controller.playIndex.value == index &&
+                                  controller.isPlaying.value
+                              ? const Icon(
+                                  Icons.play_arrow,
+                                  color: whiteColor,
+                                  size: 26,
+                                )
+                              : null,
+                          onTap: () {
+                            Get.to(() => const Player());
+                            //controller.playsong(snapshot.data![index].uri,index);
+                          },
                         ),
-                        trailing: controller.playIndex.value==index && controller.isPlaying.value
-                        ?const Icon(Icons.play_arrow,color: whiteColor,size: 26,):null, 
-                        onTap: () {
-                          //controller.playsong(snapshot.data![index].uri,index);
-                        },
                       ),
-                    ),
                     );
                   },
                 ),
