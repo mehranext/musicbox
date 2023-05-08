@@ -8,7 +8,7 @@ import 'package:musicbox/controller/player_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Player extends StatelessWidget {
-  final SongModel data;
+  final List<SongModel> data;
   const Player({super.key, required this.data});
 
   @override
@@ -32,7 +32,7 @@ class Player extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: QueryArtworkWidget(
-                  id: data.id,
+                  id: data[controller.playIndex.value].id,
                   type: ArtworkType.AUDIO,
                   artworkHeight: double.infinity,
                   artworkWidth: double.infinity,
@@ -57,110 +57,115 @@ class Player extends StatelessWidget {
                     top: Radius.circular(16),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      data.displayNameWOExt,
-                      style: ourStyle(
-                        color: bgDarkColor,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      data.artist.toString(),
-                      style: ourStyle(
-                        color: bgDarkColor,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Obx(
-                      () => Row(
-                        children: [
-                          Text(
-                            controller.position.value,
-                            style: ourStyle(color: bgDarkColor),
-                          ),
-                          Expanded(
-                            child: Slider(
-                                thumbColor: sliderColor,
-                                inactiveColor: bgColor,
-                                activeColor: sliderColor,
-                                min: Duration(seconds: 0).inSeconds.toDouble(),
-                                max: controller.max.value,
-                                value: controller.value.value,
-                                onChanged: (newvalue) {
-                                  controller.changeDurationToSeconds(
-                                      newvalue.toInt());
-                                  newvalue = newvalue;
-                                }),
-                          ),
-                          Text(
-                            controller.duration.value,
-                            style: ourStyle(color: bgDarkColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.skip_previous_rounded,
-                            size: 40,
-                            color: bgDarkColor,
-                          ),
+                child: Obx(() => Column(
+                    children: [
+                      Text(
+                        data[controller.playIndex.value].displayNameWOExt,
+                        style: ourStyle(
+                          color: bgDarkColor,
+                          size: 24,
                         ),
-                        //!first
-                        Obx(
-                          () => CircleAvatar(
-                            radius: 30,
-                            backgroundColor: bgDarkColor,
-                            child: Transform.scale(
-                              scale: 2.5,
-                              child: IconButton(
-                                  onPressed: () {
-                                    if (controller.isPlaying.value) {
-                                      controller.audioPlayer.pause();
-                                      controller.isPlaying(false);
-                                    } else {
-                                      controller.audioPlayer.play();
-                                      controller.isPlaying(true);
-                                    }
-                                  },
-                                  icon: controller.isPlaying.value
-                                      ? const Icon(
-                                          Icons.pause,
-                                          color: whiteColor,
-                                        )
-                                      : const Icon(
-                                          Icons.play_arrow_rounded,
-                                          color: whiteColor,
-                                        )),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        data[controller.playIndex.value].artist.toString(),
+                        style: ourStyle(
+                          color: bgDarkColor,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Obx(
+                        () => Row(
+                          children: [
+                            Text(
+                              controller.position.value,
+                              style: ourStyle(color: bgDarkColor),
                             ),
-                          ),
+                            Expanded(
+                              child: Slider(
+                                  thumbColor: sliderColor,
+                                  inactiveColor: bgColor,
+                                  activeColor: sliderColor,
+                                  min: Duration(seconds: 0).inSeconds.toDouble(),
+                                  max: controller.max.value,
+                                  value: controller.value.value,
+                                  onChanged: (newvalue) {
+                                    controller.changeDurationToSeconds(
+                                        newvalue.toInt());
+                                    newvalue = newvalue;
+                                  }),
+                            ),
+                            Text(
+                              controller.duration.value,
+                              style: ourStyle(color: bgDarkColor),
+                            ),
+                          ],
                         ),
-
-                        IconButton(
-                            onPressed: () {},
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              controller.playsong(data[controller.playIndex.value].uri, controller.playIndex.value-1);
+                            },
                             icon: const Icon(
-                              Icons.skip_next_rounded,
+                              Icons.skip_previous_rounded,
                               size: 40,
                               color: bgDarkColor,
-                            )),
-                      ],
-                    ),
-                  ],
+                            ),
+                          ),
+                          //!first
+                          Obx(
+                            () => CircleAvatar(
+                              radius: 30,
+                              backgroundColor: bgDarkColor,
+                              child: Transform.scale(
+                                scale: 2.5,
+                                child: IconButton(
+                                    onPressed: () {
+                                      if (controller.isPlaying.value) {
+                                        controller.audioPlayer.pause();
+                                        controller.isPlaying(false);
+                                      } else {
+                                        controller.audioPlayer.play();
+                                        controller.isPlaying(true);
+                                      }
+                                    },
+                                    icon: controller.isPlaying.value
+                                        ? const Icon(
+                                            Icons.pause,
+                                            color: whiteColor,
+                                          )
+                                        : const Icon(
+                                            Icons.play_arrow_rounded,
+                                            color: whiteColor,
+                                          )),
+                              ),
+                            ),
+                          ),
+                
+                          IconButton(
+                              onPressed: () {
+                                controller.playsong(data[controller.playIndex.value].uri, controller.playIndex.value+1);
+                              },
+                              icon: const Icon(
+                                Icons.skip_next_rounded,
+                                size: 40,
+                                color: bgDarkColor,
+                              )),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
