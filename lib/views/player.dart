@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
 import 'package:musicbox/consts/colors.dart';
 import 'package:musicbox/consts/text_style.dart';
+import 'package:musicbox/controller/player_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Player extends StatelessWidget {
   final SongModel data;
-  const Player({super.key , required this.data});
+  const Player({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<PlayerController>();
+
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(),
@@ -19,20 +23,26 @@ class Player extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-                child: Container(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  height: 300,
-                  width: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
+              child: Container(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                height: 300,
+                width: 300,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: QueryArtworkWidget(
+                  id: data.id,
+                  type: ArtworkType.AUDIO,
+                  artworkHeight: double.infinity,
+                  artworkWidth: double.infinity,
+                  nullArtworkWidget: const Icon(
+                    Icons.music_note,
+                    size: 48,
+                    color: whiteColor,
+                  ),
+                ),
               ),
-              alignment: Alignment.center,
-              child: QueryArtworkWidget(id: data.id, type: ArtworkType.AUDIO,
-             artworkHeight: double.infinity,
-             artworkWidth: double.infinity,            
-             nullArtworkWidget: const Icon(Icons.music_note,size: 48,color: wh,),  
-              ),
-            ),
             ),
             const SizedBox(
               height: 12,
@@ -104,17 +114,32 @@ class Player extends StatelessWidget {
                           ),
                         ),
                         //!first
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: bgDarkColor,
-                          child: Transform.scale(
-                            scale: 2.5,
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.play_arrow_rounded,
-                                  color: whiteColor,
-                                )),
+                        Obx(
+                        ()=>  CircleAvatar(
+                            radius: 30,
+                            backgroundColor: bgDarkColor,
+                            child: Transform.scale(
+                              scale: 2.5,
+                              child: IconButton(
+                                  onPressed: () {
+                                    if (controller.isPlaying.value) {
+                                      controller.audioPlayer.pause();
+                                      controller.isPlaying(false);
+                                    } else {
+                                      controller.audioPlayer.play();
+                                      controller.isPlaying(true);
+                                    }
+                                  },
+                                  icon: controller.isPlaying.value
+                                      ? const Icon(
+                                          Icons.pause,
+                                          color: whiteColor,
+                                        )
+                                      : const Icon(
+                                          Icons.play_arrow_rounded,
+                                          color: whiteColor,
+                                        )),
+                            ),
                           ),
                         ),
 

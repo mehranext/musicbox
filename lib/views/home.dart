@@ -104,7 +104,7 @@ class Home extends StatelessWidget {
                             (data:snapshot.data![index],),
                             transition: Transition.downToUp,
                             );
-                            //controller.playsong(snapshot.data![index].uri,index);
+                            controller.playsong(snapshot.data![index].uri,index);
                           },
                         ),
                       ),
