@@ -62,7 +62,8 @@ class Home extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 4),
-                      child: ListTile(
+                      child: Obx(
+                        () => ListTile(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12)),
                         tileColor: bgColor,
@@ -89,15 +90,13 @@ class Home extends StatelessWidget {
                             size: 32,
                           ),
                         ),
-                        trailing: const Icon(
-                          Icons.play_arrow,
-                          color: whiteColor,
-                          size: 26,
-                        ),
+                        trailing: controller.playIndex.value==index && controller.isPlaying.value
+                        ?const Icon(Icons.play_arrow,color: whiteColor,size: 26,):null, 
                         onTap: () {
-                          controller.playsong(snapshot.data![index].uri);
+                          controller.playsong(snapshot.data![index].uri,index);
                         },
                       ),
+                    ),
                     );
                   },
                 ),
