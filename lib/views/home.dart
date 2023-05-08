@@ -58,7 +58,7 @@ class Home extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: 100,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 4),
@@ -80,16 +80,13 @@ class Home extends StatelessWidget {
                             size: 12,
                           ),
                         ),
-                        leading: const Icon(
-                          Icons.music_note,
-                          color: whiteColor,
-                          size: 32,
+                        leading: QueryArtworkWidget(id: snapshot.data![index].id, type: ArtworkType.AUDIO,
+                        nullArtworkWidget: const Icon(Icons.music_note,
+                        color: whiteColor,
+                        size: 32,),
                         ),
-                        trailing: const Icon(
-                          Icons.play_arrow,
-                          color: whiteColor,
-                          size: 26,
-                        ),
+                        trailing: const Icon(Icons.play_arrow,color: whiteColor,size: 26,),
+                        onTap: (){},
                       ),
                     );
                   },
