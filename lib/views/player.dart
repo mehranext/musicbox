@@ -22,24 +22,25 @@ class Player extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                height: 300,
-                width: 300,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: QueryArtworkWidget(
-                  id: data[controller.playIndex.value].id,
-                  type: ArtworkType.AUDIO,
-                  artworkHeight: double.infinity,
-                  artworkWidth: double.infinity,
-                  nullArtworkWidget: const Icon(
-                    Icons.music_note,
-                    size: 48,
-                    color: whiteColor,
+            Obx(() =>  Expanded(
+                child: Container(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  height: 300,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: QueryArtworkWidget(
+                    id: data[controller.playIndex.value].id,
+                    type: ArtworkType.AUDIO,
+                    artworkHeight: double.infinity,
+                    artworkWidth: double.infinity,
+                    nullArtworkWidget: const Icon(
+                      Icons.music_note,
+                      size: 48,
+                      color: whiteColor,
+                    ),
                   ),
                 ),
               ),
@@ -61,6 +62,9 @@ class Player extends StatelessWidget {
                     children: [
                       Text(
                         data[controller.playIndex.value].displayNameWOExt,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: ourStyle(
                           color: bgDarkColor,
                           size: 24,
@@ -71,6 +75,9 @@ class Player extends StatelessWidget {
                       ),
                       Text(
                         data[controller.playIndex.value].artist.toString(),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: ourStyle(
                           color: bgDarkColor,
                           size: 20,
@@ -115,7 +122,7 @@ class Player extends StatelessWidget {
                         children: [
                           IconButton(
                             onPressed: () {
-                              controller.playsong(data[controller.playIndex.value].uri, controller.playIndex.value-1);
+                              controller.playsong(data[controller.playIndex.value-1].uri, controller.playIndex.value-1);
                             },
                             icon: const Icon(
                               Icons.skip_previous_rounded,
@@ -155,7 +162,7 @@ class Player extends StatelessWidget {
                 
                           IconButton(
                               onPressed: () {
-                                controller.playsong(data[controller.playIndex.value].uri, controller.playIndex.value+1);
+                                controller.playsong(data[controller.playIndex.value+1].uri, controller.playIndex.value+1);
                               },
                               icon: const Icon(
                                 Icons.skip_next_rounded,
